@@ -1,7 +1,6 @@
 """
 The Lost Kingdom - A Text Adventure Game
 Run with: python lost_kingdom.py
-Works in VS Code terminal or Jupyter: %run lost_kingdom.py
 """
 
 import time
@@ -10,31 +9,31 @@ import os
 # The entire game world stored in one dictionary
 ROOMS = {
     "entrance": {
-        "description": "You stand at the entrance of an old castle. Torches flicker on crumbling stone walls.",
+        "description": "You stand at the entrance of an old castle. Torches flicker on stone walls.",
         "exits": {"north": "courtyard", "east": "dungeon"},
-        "item": "rusty_key",
+        "item": "key",
         "enemy": None,
     },
     "courtyard": {
-        "description": "A wide open courtyard. A dry fountain sits cracked in the middle. Ravens watch from above.",
+        "description": "A wide open courtyard. A dry, cracked fountain sits in the middle. Ravens flying above.",
         "exits": {"south": "entrance", "north": "throne_room", "east": "garden"},
         "item": "health_potion",
         "enemy": None,
     },
     "dungeon": {
-        "description": "Dark and damp. Something moves in the shadows. The smell of old bones fills the air.",
+        "description": "Dark and damp. Something moves in the shadows. The smell of old stuff fills the air.",
         "exits": {"west": "entrance"},
         "item": "magic_sword",
         "enemy": {"name": "Skeleton Guard", "health": 30, "attack": 10},
     },
     "garden": {
-        "description": "An overgrown garden. Strange blue mushrooms glow faintly between the weeds.",
+        "description": "An overgrown garden. Strange blue mushroom things glow between the weeds.",
         "exits": {"west": "courtyard"},
         "item": "glowing_mushroom",
         "enemy": None,
     },
     "throne_room": {
-        "description": "The grand throne room. Gold paint peels from the walls. A dark figure sits on the throne...",
+        "description": "The grand throne room. Gold paint peels from the walls. A dark figure sits on the throne.",
         "exits": {"south": "courtyard"},
         "item": "ancient_crown",
         "enemy": {"name": "Dark King", "health": 60, "attack": 20},
@@ -42,16 +41,17 @@ ROOMS = {
 }
 
 ITEMS = {
-    "rusty_key":       {"name": "Rusty Key",       "type": "key",     "value": 0},
-    "health_potion":   {"name": "Health Potion",   "type": "heal",    "value": 30},
-    "magic_sword":     {"name": "Magic Sword",     "type": "weapon",  "attack": 25},
+    "key": {"name": "Rusty Key",       "type": "key",     "value": 0},
+    "health_potion": {"name": "Health Potion",   "type": "heal",    "value": 30},
+    "magic_sword": {"name": "Magic Sword",     "type": "weapon",  "attack": 25},
     "glowing_mushroom":{"name": "Glowing Mushroom","type": "heal",    "value": 15},
     "ancient_crown":   {"name": "Ancient Crown",   "type": "treasure","value": 200},
 }
 
 
 def clear_screen():
-    os.system("cls" if os.name == "nt" else "clear")
+    os.system("cls" if os.name == "nt" 
+              else "clear")
 
 
 def divider():
@@ -81,12 +81,14 @@ def show_status(player):
 
 
 def do_combat(player, enemy):
-    """Turn-based combat loop. Returns True (won), False (fled), None (died)."""
+    """This is the combat loop per turn. Returns True (win), False (fled), None (died)."""
     print(f"\n  A {enemy['name']} blocks your way!")
     enemy_hp = enemy["health"]
 
     while player["health"] > 0 and enemy_hp > 0:
+        """Printing the HP of player"""
         print(f"\n  {enemy['name']} HP: {enemy_hp}  |  Your HP: {player['health']}")
+         """Options to input in terminal"""
         print("  1) Attack   2) Use Potion   3) Run away")
         choice = input("  > ").strip()
 
@@ -99,11 +101,12 @@ def do_combat(player, enemy):
                 print(f"  {enemy['name']} hits you for {enemy['attack']}! HP: {player['health']}")
 
         elif choice == "2":
+             """Drink potion or mushroom to recover if have them"""
             if "health_potion" in player["inventory"]:
                 heal = ITEMS["health_potion"]["value"]
                 player["health"] = min(player["max_health"], player["health"] + heal)
                 player["inventory"].remove("health_potion")
-                print(f"  You drink a potion and recover {heal} HP! HP: {player['health']}")
+                  print(f"  You drink a potion and recover {heal} HP! HP: {player['health']}")
             elif "glowing_mushroom" in player["inventory"]:
                 heal = ITEMS["glowing_mushroom"]["value"]
                 player["health"] = min(player["max_health"], player["health"] + heal)
@@ -125,7 +128,7 @@ def do_combat(player, enemy):
     player["score"] += 50
     return True
 
-
+ """ROOMS Dictionary"""
 def explore_room(player):
     room = ROOMS[player["current_room"]]
     room_name = player["current_room"].replace("_", " ").title()
