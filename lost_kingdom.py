@@ -88,7 +88,7 @@ def do_combat(player, enemy):
     while player["health"] > 0 and enemy_hp > 0:
         """Printing the HP of player"""
         print(f"\n  {enemy['name']} HP: {enemy_hp}  |  Your HP: {player['health']}")
-         """Options to input in terminal"""
+        """Options to input in terminal"""
         print("  1) Attack   2) Use Potion   3) Run away")
         choice = input("  > ").strip()
 
@@ -101,12 +101,12 @@ def do_combat(player, enemy):
                 print(f"  {enemy['name']} hits you for {enemy['attack']}! HP: {player['health']}")
 
         elif choice == "2":
-             """Drink potion or mushroom to recover if have them"""
+            """Drink potion or mushroom to recover if have them"""
             if "health_potion" in player["inventory"]:
                 heal = ITEMS["health_potion"]["value"]
                 player["health"] = min(player["max_health"], player["health"] + heal)
                 player["inventory"].remove("health_potion")
-                  print(f"  You drink a potion and recover {heal} HP! HP: {player['health']}")
+                print(f"  You drink a potion and recover {heal} HP! HP: {player['health']}")
             elif "glowing_mushroom" in player["inventory"]:
                 heal = ITEMS["glowing_mushroom"]["value"]
                 player["health"] = min(player["max_health"], player["health"] + heal)
@@ -128,7 +128,7 @@ def do_combat(player, enemy):
     player["score"] += 50
     return True
 
- """ROOMS Dictionary"""
+"""ROOMS Dictionary"""
 def explore_room(player):
     room = ROOMS[player["current_room"]]
     room_name = player["current_room"].replace("_", " ").title()
